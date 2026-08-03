@@ -575,13 +575,19 @@ const CASE_META = [
   { key: "Banks used for transfers", val: "Commonwealth" },
   { key: "Last Crypto Exchanger Used", val: "BTC Markets" },
 ];
-document.getElementById("caseMeta").innerHTML = CASE_META.map(m => `
-  <div class="case-row">
-    <span class="case-key">${m.key}</span>
-    <span class="case-val ${m.active ? 'status-active' : ''} ${m.glow ? 'glow' : ''}">${m.val}</span>
-  </div>
-`).join("");
- 
+
+ const caseMeta = document.getElementById("caseMeta");
+
+if (caseMeta) {
+  caseMeta.innerHTML = CASE_META.map(m => `
+    <div class="case-row">
+      <span class="case-key">${m.key}</span>
+      <span class="case-val ${m.active ? 'status-active' : ''} ${m.glow ? 'glow' : ''}">
+        ${m.val}
+      </span>
+    </div>
+  `).join("");
+}
 
 /* =========================================================
    Background particle field — floating sample hex strings
