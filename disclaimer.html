@@ -261,7 +261,7 @@
 
 <div class="portal">
   <div class="titlebar">
-    <span><span class="dot"></span>SYS.INTAKE</span>
+    <span><span class="dot"></span>Cryptographic Intellience Portal</span>
     <span id="clock">--:--:--</span>
   </div>
 
@@ -280,12 +280,12 @@
       <label class="radio-option" data-value="teacher">
         <input type="radio" name="referrer" value="teacher">
         <span class="radio-dot"></span>
-        <span>Teacher</span>
+        <span>Investigator</span>
       </label>
       <label class="radio-option" data-value="professor">
         <input type="radio" name="referrer" value="professor">
         <span class="radio-dot"></span>
-        <span>Professor</span>
+        <span>Data Analyst</span>
       </label>
       <label class="radio-option" data-value="other">
         <input type="radio" name="referrer" value="other">
@@ -302,7 +302,7 @@
         <div class="suggestions" id="countrySuggestions"></div>
       </div>
       <div class="form-group">
-        <span class="field-label">TEACHER NAME</span>
+        <span class="field-label">Investigator's Name</span>
         <input type="text" id="teacherNameInput" placeholder="Full name" autocomplete="off">
       </div>
     </div>
@@ -310,8 +310,8 @@
     <!-- Professor form -->
     <div class="dynamic" id="form-professor">
       <div class="form-group">
-        <span class="field-label">PROFESSOR NAME</span>
-        <input type="text" id="professorInput" placeholder="Start typing a name..." autocomplete="off">
+        <span class="field-label">Search the Data Center</span>
+        <input type="text" id="professorInput" placeholder="Start typing the name of the Data Center..." autocomplete="off">
         <div class="suggestions" id="professorSuggestions"></div>
       </div>
     </div>
@@ -327,27 +327,129 @@
     <button id="continueBtn" disabled>CONTINUE</button>
   </div>
 
-  <div class="footer">ADMINISTRATIVE USE ONLY · NO DATA SHARED</div>
+  <div class="footer">ADMINISTRATIVE USE ONLY · NO DATA SHOULD BE SHARED</div>
 </div>
 
 <script>
   // ---- Config ----
-  const DESTINATION_URL = "https://your-next-page-url.com"; // <-- replace with your destination URL
+  const DESTINATION_URL = "./dashboard.html";
 
   // Sample professor list — replace with your real list any time
   const PROFESSOR_NAMES = [
-    "Albert Smith", "Alex Johnson", "Alice Brown", "Alfred Wilson",
-    "Angela Martinez", "Andrew Clark", "Anna Davis", "Anthony Lewis",
-    "Barbara Young", "Brian Walker", "Catherine Hall", "Charles Allen",
-    "Diana Scott", "Daniel Green", "Elizabeth King", "Edward Wright",
-    "Fiona Adams", "Frank Baker", "Grace Nelson", "George Carter",
-    "Helen Mitchell", "Henry Perez", "Isabella Roberts", "Ian Turner",
-    "Julia Phillips", "James Campbell", "Karen Parker", "Kevin Evans",
-    "Laura Edwards", "Liam Collins", "Maria Stewart", "Michael Sanchez",
-    "Nancy Morris", "Nathan Rogers", "Olivia Reed", "Oscar Cook",
-    "Patricia Morgan", "Peter Bell", "Rachel Murphy", "Robert Bailey",
-    "Susan Cooper", "Samuel Richardson", "Teresa Cox", "Thomas Howard",
-    "Ursula Ward", "Victor Torres", "Wendy Peterson", "William Gray"
+   const DATA_CENTERS = [
+"Amazon AWS Ashburn Data Center",
+"Amazon AWS Dublin Data Center",
+"Amazon AWS Frankfurt Data Center",
+"Ashfrod And Vale Data Center USA",
+"Ashfrod And Vale Data Center CANADA",
+"Amazon AWS Oregon Data Center",
+"AirTrunk Sydney Data Center",
+"AirTrunk Melbourne Data Center",
+"AirTrunk Tokyo Data Center",
+"AirTrunk Singapore Data Center",
+"Aligned Data Centers Phoenix",
+"Aligned Data Centers Dallas",
+"Aligned Data Centers Chicago",
+"Aligned Data Centers Salt Lake City",
+"AtlasEdge Amsterdam Data Center",
+"AtlasEdge Dublin Data Center",
+"AtlasEdge Madrid Data Center",
+"Apple Maiden Data Center",
+"Apple Prineville Data Center",
+"Apple Reno Data Center",
+
+"CoreSite Chicago Data Center",
+"CoreSite Denver Data Center",
+"CoreSite Los Angeles Data Center",
+"CoreSite Miami Data Center",
+"CoreSite New York Data Center",
+
+"CyrusOne Chicago Data Center",
+"CyrusOne Dallas Data Center",
+"CyrusOne Houston Data Center",
+"CyrusOne Northern Virginia Data Center",
+
+"DataBank Atlanta Data Center",
+"DataBank Dallas Data Center",
+"DataBank Denver Data Center",
+"DataBank Minneapolis Data Center",
+
+"Digital Realty Amsterdam Data Center",
+"Digital Realty Dallas Data Center",
+"Digital Realty Frankfurt Data Center",
+"Digital Realty London Data Center",
+"Digital Realty Northern Virginia Data Center",
+
+"Equinix Amsterdam AM Data Center",
+"Equinix Dallas DA Data Center",
+"Equinix Frankfurt FR Data Center",
+"Equinix London LD Data Center",
+"Equinix New York NY Data Center",
+"Equinix Silicon Valley SV Data Center",
+
+"Flexential Charlotte Data Center",
+"Flexential Denver Data Center",
+"Flexential Phoenix Data Center",
+"Flexential Tampa Data Center",
+
+"Google Council Bluffs Data Center",
+"Google Hamina Data Center",
+"Google Lenoir Data Center",
+"Google Singapore Data Center",
+"Google St. Ghislain Data Center",
+
+"IBM Cloud Dallas Data Center",
+"IBM Cloud Frankfurt Data Center",
+"IBM Cloud London Data Center",
+
+"Microsoft Azure Chicago Data Center",
+"Microsoft Azure Dublin Data Center",
+"Microsoft Azure Phoenix Data Center",
+"Microsoft Azure Virginia Data Center",
+
+"NTT Global Data Centers Amsterdam",
+"NTT Global Data Centers Frankfurt",
+"NTT Global Data Centers London",
+"NTT Global Data Centers Singapore",
+"NTT Global Data Centers Sydney",
+"NTT Global Data Centers Tokyo",
+
+"Oracle Cloud Ashburn Data Center",
+"Oracle Cloud Chicago Data Center",
+"Oracle Cloud Frankfurt Data Center",
+"Oracle Cloud Phoenix Data Center",
+
+"QTS Atlanta Data Center",
+"QTS Chicago Data Center",
+"QTS Dallas Data Center",
+"QTS Richmond Data Center",
+
+"Sabey Data Center Seattle",
+"Sabey Data Center Quincy",
+"Sabey Data Center New York",
+
+"Stack Infrastructure Atlanta Data Center",
+"Stack Infrastructure Chicago Data Center",
+"Stack Infrastructure Dallas Data Center",
+"Stack Infrastructure Northern Virginia",
+
+"Switch Atlanta Data Center",
+"Switch Las Vegas Data Center",
+"Switch Phoenix Data Center",
+"Switch Reno Data Center",
+
+"Vantage Ashburn Data Center",
+"Vantage Phoenix Data Center",
+"Vantage Santa Clara Data Center",
+"Vantage Toronto Data Center",
+
+"Yond Amsterdam Data Center",
+"Yond Berlin Data Center",
+"Yond Frankfurt Data Center",
+
+"Zayo Data Center Denver",
+"Zayo Data Center New York"
+];
   ];
 
   const COUNTRIES = [
