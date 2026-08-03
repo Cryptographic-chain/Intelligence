@@ -261,7 +261,7 @@
 
 <div class="portal">
   <div class="titlebar">
-    <span><span class="dot"></span>Cryptographic Intellience Portal</span>
+    <span><span class="dot"></span>SYS.INTAKE</span>
     <span id="clock">--:--:--</span>
   </div>
 
@@ -280,12 +280,12 @@
       <label class="radio-option" data-value="teacher">
         <input type="radio" name="referrer" value="teacher">
         <span class="radio-dot"></span>
-        <span>Investigator</span>
+        <span>Teacher</span>
       </label>
       <label class="radio-option" data-value="professor">
         <input type="radio" name="referrer" value="professor">
         <span class="radio-dot"></span>
-        <span>Data Analyst</span>
+        <span>Professor</span>
       </label>
       <label class="radio-option" data-value="other">
         <input type="radio" name="referrer" value="other">
@@ -302,7 +302,7 @@
         <div class="suggestions" id="countrySuggestions"></div>
       </div>
       <div class="form-group">
-        <span class="field-label">Investigator's Name</span>
+        <span class="field-label">TEACHER NAME</span>
         <input type="text" id="teacherNameInput" placeholder="Full name" autocomplete="off">
       </div>
     </div>
@@ -310,8 +310,8 @@
     <!-- Professor form -->
     <div class="dynamic" id="form-professor">
       <div class="form-group">
-        <span class="field-label">Search the Data Center</span>
-        <input type="text" id="professorInput" placeholder="Start typing the name of the Data Center..." autocomplete="off">
+        <span class="field-label">PROFESSOR NAME</span>
+        <input type="text" id="professorInput" placeholder="Start typing a name..." autocomplete="off">
         <div class="suggestions" id="professorSuggestions"></div>
       </div>
     </div>
@@ -327,16 +327,15 @@
     <button id="continueBtn" disabled>CONTINUE</button>
   </div>
 
-  <div class="footer">ADMINISTRATIVE USE ONLY · NO DATA SHOULD BE SHARED</div>
+  <div class="footer">ADMINISTRATIVE USE ONLY · NO DATA SHARED</div>
 </div>
 
 <script>
   // ---- Config ----
-  const DESTINATION_URL = "./dashboard.html";
+  const DESTINATION_URL = "https://your-next-page-url.com"; // <-- replace with your destination URL
 
   // Sample professor list — replace with your real list any time
   const PROFESSOR_NAMES = [
-   const DATA_CENTERS = [
 "Amazon AWS Ashburn Data Center",
 "Amazon AWS Dublin Data Center",
 "Amazon AWS Frankfurt Data Center",
