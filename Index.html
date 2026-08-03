@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access Portal</title>
+<style>
+  :root{
+    --bg: #0a0e0c;
+    --panel: #0f1613;
+    --line: #1e2b24;
+    --green: #39ff88;
+    --green-dim: #1c8a4c;
+    --red: #ff4d4d;
+    --text: #c9f5da;
+    --text-dim: #5b8a6c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body{
+    background: var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(57,255,136,0.035) 0px, rgba(57,255,136,0.035) 1px, transparent 1px, transparent 3px);
+    color: var(--text);
+    font-family: "Courier New", ui-monospace, "Cascadia Code", monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .portal{
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 0 0 1px rgba(57,255,136,0.06), 0 0 40px rgba(57,255,136,0.06);
+    position: relative;
+  }
+
+  .portal::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.6);
+  }
+
+  .titlebar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+  }
+
+  .dot{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green-dim);
+    box-shadow: 0 0 6px var(--green-dim);
+    display:inline-block;
+    margin-right: 8px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse{
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .body{
+    padding: 40px 32px 32px;
+    text-align: center;
+  }
+
+  .eyebrow{
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--text-dim);
+    margin: 0 0 6px;
+  }
+
+  h1{
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    margin: 0 0 28px;
+    color: var(--green);
+    text-shadow: 0 0 12px rgba(57,255,136,0.35);
+  }
+
+  label{
+    display:block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .input-row{
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"]{
+    width: 100%;
+    background: #060907;
+    border: 1px solid var(--line);
+    color: var(--green);
+    font-family: inherit;
+    font-size: 20px;
+    letter-spacing: 0.4em;
+    text-align: center;
+    padding: 14px 10px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    text-transform: uppercase;
+  }
+
+  input[type="text"]::placeholder{
+    color: #2a3a30;
+    letter-spacing: 0.2em;
+  }
+
+  input[type="text"]:focus{
+    border-color: var(--green-dim);
+    box-shadow: 0 0 0 1px var(--green-dim), 0 0 18px rgba(57,255,136,0.15);
+  }
+
+  .counter{
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-align: right;
+    margin: 6px 2px 26px;
+  }
+
+  .counter.ok{ color: var(--green-dim); }
+
+  button{
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--green-dim);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    padding: 14px;
+    cursor: not-allowed;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+  }
+
+  button.active{
+    color: var(--bg);
+    background: var(--green);
+    border-color: var(--green);
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(57,255,136,0.4);
+  }
+
+  button.active:hover{
+    background: #6bffab;
+  }
+
+  .status{
+    margin-top: 18px;
+    min-height: 16px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .status.show{ opacity: 1; }
+
+  .shake{
+    animation: shake 0.35s ease;
+  }
+
+  @keyframes shake{
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .footer{
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="portal">
+  <div class="titlebar">
+    <span><span class="dot"></span>SYS.AUTH</span>
+    <span id="clock">--:--:--</span>
+  </div>
+
+  <div class="body">
+    <p class="eyebrow">RESTRICTED TERMINAL</p>
+    <h1>ACCESS PORTAL</h1>
+
+    <label for="keyInput">ENTER ACCESS PHRASE</label>
+    <div class="input-row">
+      <input
+        type="text"
+        id="keyInput"
+        maxlength="7"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="_______"
+      />
+    </div>
+    <div class="counter" id="counter">0 / 7</div>
+
+    <button id="continueBtn" disabled>CONTINUE</button>
+
+    <div class="status" id="status">ACCESS DENIED — WRONG KEY PARSE</div>
+  </div>
+
+  <div class="footer">NO PARTIAL MATCHES · CASE SENSITIVE · 7 CHAR</div>
+</div>
+
+<script>
+  // ---- Config ----
+  const VALID_KEY = "RRNBBRS";
+  const DESTINATION_URL = "https://your-video-link-here.com"; // <-- replace with your video URL
+
+  // ---- Elements ----
+  const input = document.getElementById("keyInput");
+  const counter = document.getElementById("counter");
+  const btn = document.getElementById("continueBtn");
+  const status = document.getElementById("status");
+  const portal = document.querySelector(".portal");
+  const clock = document.getElementById("clock");
+
+  // ---- Live clock (atmosphere) ----
+  function tick(){
+    clock.textContent = new Date().toLocaleTimeString("en-GB");
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- Core validation logic ----
+  function isValidKey(value){
+    // Exactly 7 characters, exact case-sensitive match, no partials
+    return value.length === 7 && value === VALID_KEY;
+  }
+
+  function updateUI(){
+    const value = input.value;
+
+    counter.textContent = `${value.length} / 7`;
+    counter.classList.toggle("ok", value.length === 7);
+
+    const valid = isValidKey(value);
+    btn.disabled = !valid;
+    btn.classList.toggle("active", valid);
+
+    status.classList.remove("show");
+  }
+
+  input.addEventListener("input", () => {
+    // Force uppercase, strip anything beyond 7 chars just in case
+    input.value = input.value.toUpperCase().slice(0, 7);
+    updateUI();
+  });
+
+  function openDisclaimer(){
+    window.location.href = DESTINATION_URL;
+  }
+
+  function denyAccess(){
+    status.classList.add("show");
+    portal.classList.remove("shake");
+    void portal.offsetWidth; // restart animation
+    portal.classList.add("shake");
+  }
+
+  btn.addEventListener("click", () => {
+    const value = input.value;
+    if (value === VALID_KEY) {
+      openDisclaimer();
+    } else {
+      denyAccess();
+    }
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !btn.disabled) {
+      btn.click();
+    }
+  });
+
+  updateUI();
+</script>
+
+</body>
+</html>
+
