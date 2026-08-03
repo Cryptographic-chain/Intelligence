@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer</title>
+<style>
+  :root{
+    --bg: #0a0e0c;
+    --panel: #0f1613;
+    --line: #1e2b24;
+    --green: #39ff88;
+    --green-dim: #1c8a4c;
+    --red: #ff4d4d;
+    --text: #c9f5da;
+    --text-dim: #5b8a6c;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+
+  body{
+    background: var(--bg);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(57,255,136,0.035) 0px, rgba(57,255,136,0.035) 1px, transparent 1px, transparent 3px);
+    color: var(--text);
+    font-family: "Courier New", ui-monospace, "Cascadia Code", monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .portal{
+    width: 100%;
+    max-width: 460px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 0 0 1px rgba(57,255,136,0.06), 0 0 40px rgba(57,255,136,0.06);
+  }
+
+  .titlebar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+  }
+
+  .dot{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green-dim);
+    box-shadow: 0 0 6px var(--green-dim);
+    display:inline-block;
+    margin-right: 8px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse{
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .body{ padding: 32px 32px 28px; }
+
+  .eyebrow{
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--text-dim);
+    margin: 0 0 6px;
+    text-align: center;
+  }
+
+  h1{
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    margin: 0 0 18px;
+    color: var(--green);
+    text-shadow: 0 0 12px rgba(57,255,136,0.35);
+    text-align: center;
+  }
+
+  .desc{
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    text-align: center;
+    margin: 0 0 22px;
+  }
+
+  hr{
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 22px 0;
+  }
+
+  .field-label{
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    display:block;
+  }
+
+  /* Radio group */
+  .radio-group{ display:flex; flex-direction:column; gap: 10px; }
+
+  .radio-option{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    background: #060907;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+
+  .radio-option:hover{ border-color: var(--green-dim); }
+
+  .radio-option.selected{
+    border-color: var(--green);
+    background: rgba(57,255,136,0.06);
+  }
+
+  .radio-option input{ display:none; }
+
+  .radio-dot{
+    width: 14px; height: 14px;
+    border: 1px solid var(--text-dim);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .radio-option.selected .radio-dot{ border-color: var(--green); }
+
+  .radio-option.selected .radio-dot::after{
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  /* Dynamic section */
+  .dynamic{
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 22px;
+  }
+
+  .dynamic.active{ display: flex; }
+
+  .form-group{ position: relative; }
+
+  input[type="text"], select{
+    width: 100%;
+    background: #060907;
+    border: 1px solid var(--line);
+    color: var(--green);
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 12px 12px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  input[type="text"]::placeholder{ color: #2a3a30; }
+
+  input[type="text"]:focus, select:focus, .search-input:focus{
+    border-color: var(--green-dim);
+    box-shadow: 0 0 0 1px var(--green-dim), 0 0 18px rgba(57,255,136,0.12);
+  }
+
+  /* Suggestion dropdown (professor autocomplete + country search) */
+  .suggestions{
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #060907;
+    border: 1px solid var(--green-dim);
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  .suggestions.show{ display: block; }
+
+  .suggestion-item{
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .suggestion-item:last-child{ border-bottom: none; }
+
+  .suggestion-item:hover,
+  .suggestion-item.highlighted{
+    background: rgba(57,255,136,0.1);
+    color: var(--green);
+  }
+
+  .suggestion-empty{
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  button{
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--green-dim);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    padding: 14px;
+    cursor: not-allowed;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+    margin-top: 26px;
+  }
+
+  button.active{
+    color: var(--bg);
+    background: var(--green);
+    border-color: var(--green);
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(57,255,136,0.4);
+  }
+
+  button.active:hover{ background: #6bffab; }
+
+  .footer{
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="portal">
+  <div class="titlebar">
+    <span><span class="dot"></span>SYS.INTAKE</span>
+    <span id="clock">--:--:--</span>
+  </div>
+
+  <div class="body">
+    <p class="eyebrow">STEP 2 OF 2</p>
+    <h1>DISCLAIMER</h1>
+    <p class="desc">
+      Please indicate who referred you.<br>
+      This information is collected for administrative purposes only.
+    </p>
+
+    <hr>
+
+    <span class="field-label">WHO REFERRED YOU?</span>
+    <div class="radio-group" id="radioGroup">
+      <label class="radio-option" data-value="teacher">
+        <input type="radio" name="referrer" value="teacher">
+        <span class="radio-dot"></span>
+        <span>Teacher</span>
+      </label>
+      <label class="radio-option" data-value="professor">
+        <input type="radio" name="referrer" value="professor">
+        <span class="radio-dot"></span>
+        <span>Professor</span>
+      </label>
+      <label class="radio-option" data-value="other">
+        <input type="radio" name="referrer" value="other">
+        <span class="radio-dot"></span>
+        <span>Other</span>
+      </label>
+    </div>
+
+    <!-- Teacher form -->
+    <div class="dynamic" id="form-teacher">
+      <div class="form-group">
+        <span class="field-label">COUNTRY</span>
+        <input type="text" class="search-input" id="countryInput" placeholder="Search country..." autocomplete="off">
+        <div class="suggestions" id="countrySuggestions"></div>
+      </div>
+      <div class="form-group">
+        <span class="field-label">TEACHER NAME</span>
+        <input type="text" id="teacherNameInput" placeholder="Full name" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- Professor form -->
+    <div class="dynamic" id="form-professor">
+      <div class="form-group">
+        <span class="field-label">PROFESSOR NAME</span>
+        <input type="text" id="professorInput" placeholder="Start typing a name..." autocomplete="off">
+        <div class="suggestions" id="professorSuggestions"></div>
+      </div>
+    </div>
+
+    <!-- Other form -->
+    <div class="dynamic" id="form-other">
+      <div class="form-group">
+        <span class="field-label">PLEASE SPECIFY</span>
+        <input type="text" id="otherInput" placeholder="Tell us who referred you" autocomplete="off">
+      </div>
+    </div>
+
+    <button id="continueBtn" disabled>CONTINUE</button>
+  </div>
+
+  <div class="footer">ADMINISTRATIVE USE ONLY · NO DATA SHARED</div>
+</div>
+
+<script>
+  // ---- Config ----
+  const DESTINATION_URL = "https://your-next-page-url.com"; // <-- replace with your destination URL
+
+  // Sample professor list — replace with your real list any time
+  const PROFESSOR_NAMES = [
+    "Albert Smith", "Alex Johnson", "Alice Brown", "Alfred Wilson",
+    "Angela Martinez", "Andrew Clark", "Anna Davis", "Anthony Lewis",
+    "Barbara Young", "Brian Walker", "Catherine Hall", "Charles Allen",
+    "Diana Scott", "Daniel Green", "Elizabeth King", "Edward Wright",
+    "Fiona Adams", "Frank Baker", "Grace Nelson", "George Carter",
+    "Helen Mitchell", "Henry Perez", "Isabella Roberts", "Ian Turner",
+    "Julia Phillips", "James Campbell", "Karen Parker", "Kevin Evans",
+    "Laura Edwards", "Liam Collins", "Maria Stewart", "Michael Sanchez",
+    "Nancy Morris", "Nathan Rogers", "Olivia Reed", "Oscar Cook",
+    "Patricia Morgan", "Peter Bell", "Rachel Murphy", "Robert Bailey",
+    "Susan Cooper", "Samuel Richardson", "Teresa Cox", "Thomas Howard",
+    "Ursula Ward", "Victor Torres", "Wendy Peterson", "William Gray"
+  ];
+
+  const COUNTRIES = [
+    "Australia","Austria","Bangladesh","Belgium","Brazil","Canada","Chile","China",
+    "Colombia","Denmark","Egypt","Finland","France","Germany","Greece","Hong Kong",
+    "India","Indonesia","Ireland","Israel","Italy","Japan","Kenya","Malaysia",
+    "Mexico","Netherlands","New Zealand","Nigeria","Norway","Pakistan","Philippines",
+    "Poland","Portugal","Qatar","Russia","Saudi Arabia","Singapore","South Africa",
+    "South Korea","Spain","Sweden","Switzerland","Taiwan","Thailand","Turkey",
+    "Ukraine","United Arab Emirates","United Kingdom","United States","Vietnam"
+  ];
+
+  // ---- State ----
+  let selectedReferrer = null;
+  let selectedCountry = null;
+  let selectedProfessor = null;
+
+  // ---- Elements ----
+  const radioGroup = document.getElementById("radioGroup");
+  const forms = {
+    teacher: document.getElementById("form-teacher"),
+    professor: document.getElementById("form-professor"),
+    other: document.getElementById("form-other"),
+  };
+  const btn = document.getElementById("continueBtn");
+  const clock = document.getElementById("clock");
+
+  const countryInput = document.getElementById("countryInput");
+  const countrySuggestions = document.getElementById("countrySuggestions");
+  const teacherNameInput = document.getElementById("teacherNameInput");
+
+  const professorInput = document.getElementById("professorInput");
+  const professorSuggestions = document.getElementById("professorSuggestions");
+
+  const otherInput = document.getElementById("otherInput");
+
+  // ---- Clock ----
+  function tick(){ clock.textContent = new Date().toLocaleTimeString("en-GB"); }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- Generic autocomplete builder ----
+  function setupAutocomplete(inputEl, suggestionsEl, dataList, onSelect){
+    inputEl.addEventListener("input", () => {
+      const query = inputEl.value.trim().toLowerCase();
+      onSelect(null); // clear selection while typing
+
+      if (!query){
+        suggestionsEl.classList.remove("show");
+        suggestionsEl.innerHTML = "";
+        updateContinueState();
+        return;
+      }
+
+      const matches = dataList.filter(name => name.toLowerCase().includes(query)).slice(0, 8);
+
+      if (matches.length === 0){
+        suggestionsEl.innerHTML = `<div class="suggestion-empty">No matches found</div>`;
+      } else {
+        suggestionsEl.innerHTML = matches.map(name =>
+          `<div class="suggestion-item">${name}</div>`
+        ).join("");
+      }
+
+      suggestionsEl.classList.add("show");
+      updateContinueState();
+    });
+
+    suggestionsEl.addEventListener("click", (e) => {
+      const item = e.target.closest(".suggestion-item");
+      if (!item) return;
+      inputEl.value = item.textContent;
+      suggestionsEl.classList.remove("show");
+      onSelect(item.textContent);
+      updateContinueState();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!inputEl.contains(e.target) && !suggestionsEl.contains(e.target)){
+        suggestionsEl.classList.remove("show");
+      }
+    });
+  }
+
+  setupAutocomplete(countryInput, countrySuggestions, COUNTRIES, (val) => { selectedCountry = val; });
+  setupAutocomplete(professorInput, professorSuggestions, PROFESSOR_NAMES, (val) => { selectedProfessor = val; });
+
+  // ---- Radio group behavior ----
+  radioGroup.addEventListener("click", (e) => {
+    const option = e.target.closest(".radio-option");
+    if (!option) return;
+
+    selectedReferrer = option.dataset.value;
+
+    [...radioGroup.children].forEach(el => el.classList.remove("selected"));
+    option.classList.add("selected");
+    option.querySelector("input").checked = true;
+
+    Object.values(forms).forEach(f => f.classList.remove("active"));
+    forms[selectedReferrer].classList.add("active");
+
+    updateContinueState();
+  });
+
+  // ---- Plain text inputs ----
+  [teacherNameInput, otherInput].forEach(el => {
+    el.addEventListener("input", updateContinueState);
+  });
+
+  // ---- Validation ----
+  function isValid(){
+    if (selectedReferrer === "teacher"){
+      return Boolean(selectedCountry) && teacherNameInput.value.trim().length > 0;
+    }
+    if (selectedReferrer === "professor"){
+      return Boolean(selectedProfessor);
+    }
+    if (selectedReferrer === "other"){
+      return otherInput.value.trim().length > 0;
+    }
+    return false;
+  }
+
+  function updateContinueState(){
+    const valid = isValid();
+    btn.disabled = !valid;
+    btn.classList.toggle("active", valid);
+  }
+
+  btn.addEventListener("click", () => {
+    if (btn.disabled) return;
+    window.location.href = DESTINATION_URL;
+  });
+
+  updateContinueState();
+</script>
+
+</body>
+</html>
+
