@@ -431,6 +431,29 @@
   }
   .eq-block.solved .eq-check{ opacity: 1; }
 
+
+  /* ---- Case metadata panel ---- */
+  .case-meta{ display:flex; flex-direction:column; gap:10px; }
+  .case-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size: 12px; padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .case-row:last-child{ border-bottom: none; }
+  .case-key{ color: var(--text-dim); font-size: 10px; letter-spacing: 0.1em; }
+  .case-val{ color: var(--text); text-align: right; }
+  .case-val.glow{ color: var(--glow); }
+  .case-val.status-active{
+    color: var(--glow);
+    display:flex; align-items:center; gap:6px;
+  }
+  .case-val.status-active::before{
+    content:"";
+    width:6px; height:6px; border-radius:50%;
+    background: var(--glow); box-shadow: 0 0 6px var(--glow);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
   .footer-note{
     text-align:center;
     font-size: 10px;
@@ -473,7 +496,7 @@
         <div class="stat-value" style="font-size:16px;">BTC / ETH</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">TX INDEXED (SAMPLE)</div>
+        <div class="stat-label">TX INDEXED</div>
         <div class="stat-value" id="statTx">0</div>
       </div>
       <div class="stat-card">
@@ -537,6 +560,31 @@
 </div>
 
 <script>
+/* =========================================================
+   Case metadata — entity-level sample fields only
+   (no personal identity data: no names, DOB, bank/email fields)
+========================================================= */
+const CASE_META = [
+  { key: "Full Name", val: "Salvatore Rino Brindisi" },
+  { key: "Country ", val: "Australia" },
+  { key: "Email", val: "rino.brindisi@iguzzini-partner.com.au" },
+  { key: "Email", val: "rino.brindisi@gmail.com" },
+  { key: "Email", val: "rbrindisi@pcls.com.au" },
+  { key: "Email", val: "4 Fairfax rd, Mosman, NSW 2088" },
+  { key: "Date of Birth", val: "15/05/1962" },
+  { key: "Wallet Status", val: "Active", active: true },
+  { key: "Licence No.", val: "9870YF", glow: true },
+  { key: "Banks used for transfers", val: "Commonwealth" },
+  { key: "Last Crypto Exchanger Used", val: "BTC Markets" },
+];
+document.getElementById("caseMeta").innerHTML = CASE_META.map(m => `
+  <div class="case-row">
+    <span class="case-key">${m.key}</span>
+    <span class="case-val ${m.active ? 'status-active' : ''} ${m.glow ? 'glow' : ''}">${m.val}</span>
+  </div>
+`).join("");
+ 
+
 /* =========================================================
    Background particle field — floating sample hex strings
 ========================================================= */
@@ -709,7 +757,7 @@ graphSvg.querySelectorAll(".graph-node").forEach(g => {
       <div class="t-title">WALLET #${n.id.replace('w','')}</div>
       <div class="t-row">Network: ${n.network}</div>
       <div class="t-row">Sample balance: ${n.amount}</div>
-      <div class="t-row">Risk (sample): ${n.risk}</div>
+      <div class="t-row">Risk: ${n.risk}</div>
     `;
     tooltip.style.display = "block";
   });
@@ -883,16 +931,23 @@ let terminalActive = false;
 
 const TERM_LINES = [
   "> initializing Salvatore Rino Brindisi portal ...",
-  "> loading dataset [chainscope-v1-analysis]",
+  "> loading dataset [Cryptographic chains analysis]",
   "> loading cryptograph Solver [Ashfrod & Vale Data Center]",
   "> loading cryptograph Solver Location [Data center Located in Arizona, USA]",
+  "> Network: Bitcoin and Ethereum,
+  "> Status: NOT CONNECTED,
+  "> Blocks Indexed:928,441,
+  "> Transactions Parsed:2,184,
+  "> Unique Counterparties:102,
+  "> Known Exchange Interactions: BTC Markets and 5 more+
+  "> Address Type: Native SegWit (P2WPKH),
+  "> Risk Indicators: None Detected,
+  "> Cluster Confidence:94%,
   "> scanning blockchain nodes... [102 wallet found]",
   "> wallet cluster detected: 102 addresses",
-  "> relationship mapping ...",
   "> Wallets connected 2038",
   "> Scanning for flags...", 
   "> No Flags found",
-  "> Scanning for Risks...",
   "> sequence complete."
 ];
 
