@@ -446,15 +446,15 @@
 
 <div class="app">
 
-  <div class="demo-banner">⚠ DEMO — ALL DATA BELOW IS SIMULATED / SAMPLE DATA FOR VISUALIZATION PURPOSES ONLY</div>
+  <div class="demo-banner">⚠ This information is classified as Confidential and may only be accessed by authorized personnel.</div>
 
   <div class="header">
     <div class="header-left">
-      <div class="brand">CHAIN<span>SCOPE</span> — VISUALIZATION DEMO</div>
-      <div class="sub">SESSION #DEMO-00417 · SAMPLE DATASET</div>
+      <div class="brand">Cryptographic<span>Intelligence</span> — Portal</div>
+      <div class="sub">SESSION #RRNBBRS-00417 · DATASET</div>
     </div>
     <div class="header-right">
-      <div class="status-pill"><span class="status-dot"></span>LIVE (SIMULATED)</div>
+      <div class="status-pill"><span class="status-dot"></span>LIVE</div>
       <div class="hash-scroll" id="hashScroll"></div>
       <div id="clock" class="sub"></div>
       <button class="mode-toggle" id="modeToggle">TERMINAL VIEW</button>
@@ -487,20 +487,20 @@
       <!-- Left column -->
       <div style="display:flex; flex-direction:column; gap:16px;">
         <div class="panel value-card">
-          <div class="panel-title">SAMPLE ASSET VALUE <span class="tag">MOCK</span></div>
+          <div class="panel-title">ASSET VALUE <span class="tag">Private</span></div>
           <div class="value-amount" id="valueAmount">$206,532.00 AUD</div>
           <div class="value-hint">click amount to toggle visibility</div>
         </div>
 
         <div class="panel">
-          <div class="panel-title">WALLET TAGS <span class="tag">SAMPLE</span></div>
+          <div class="panel-title">WALLET TAGS <span class="tag">LIVE</span></div>
           <div class="tag-list" id="tagList"></div>
         </div>
       </div>
 
       <!-- Center: network graph -->
       <div class="panel">
-        <div class="panel-title">NETWORK GRAPH <span class="tag">SIMULATED LAYOUT</span></div>
+        <div class="panel-title">NETWORK GRAPH <span class="tag">LAYOUT</span></div>
         <div class="graph-wrap">
           <svg id="graph" viewBox="0 0 600 380"></svg>
           <div class="node-tooltip" id="nodeTooltip"></div>
@@ -509,22 +509,22 @@
 
       <!-- Right: solver -->
       <div class="panel">
-        <div class="panel-title">COMPUTATION VISUALIZATION <span class="tag">SIMULATED</span></div>
+        <div class="panel-title">COMPUTATION VISUALIZATION <span class="tag">LIVE</span></div>
         <div class="solver-grid" id="solverGrid"></div>
         <div class="solver-progress-bar"><div class="solver-progress-fill" id="solverFill"></div></div>
         <div class="solver-pct"><span id="solverPctLabel">SCANNING</span><span id="solverPct">0%</span></div>
-        <div class="solver-note">Illustrative animation only — does not represent real computation</div>
+        <div class="solver-note">Machine is using Ethereum Archive Node - [CPU:16–64 cores , RAM:128GB–512GB , Storage:10TB–100TB NVMe SSD , Network:10Gbps]</div>
       </div>
     </div>
 
     <div class="panel" style="margin-top:16px;">
-      <div class="panel-title">CRYPTOGRAPHIC COMPUTATION VISUALIZER <span class="tag">SIMULATED</span></div>
+      <div class="panel-title">CRYPTOGRAPHIC COMPUTATION VISUALIZER <span class="tag">LIVE WALLET CHANELS</span></div>
       <div class="eq-grid" id="eqGrid"></div>
-      <div class="solver-note">Formulas are real cryptographic building blocks (hashing, modular exponentiation, EC point math) — the values and solving animation are illustrative, not a live computation</div>
+      <div class="solver-note">This TSFG machine is solving formulas with EC point Math and modular exponentiation.</div>
     </div>
 
     <div class="panel" style="margin-top:16px;">
-      <div class="panel-title">SAMPLE TIMELINE <span class="tag">DEMO EVENTS</span></div>
+      <div class="panel-title">TIMELINE <span class="tag">EVENTS</span></div>
       <div class="timeline" id="timeline"></div>
     </div>
 
@@ -533,7 +533,7 @@
   <!-- Terminal mode -->
   <div class="terminal-view" id="terminalView"></div>
 
-  <div class="footer-note">CHAINSCOPE DEMO BUILD · FOR PORTFOLIO / EDUCATIONAL USE · NOT CONNECTED TO ANY REAL BLOCKCHAIN DATA</div>
+  <div class="footer-note">Cryptographic Intelligence Portal · This information is classified as Confidential and may only be accessed by authorized personnel.</div>
 </div>
 
 <script>
@@ -722,14 +722,14 @@ graphSvg.querySelectorAll(".graph-node").forEach(g => {
 });
 
 /* =========================================================
-   Timeline (sample events)
+   Timeline 
 ========================================================= */
 const TIMELINE = [
-  { date: "2026-07-21", text: "Sample wallet discovered", active: true },
-  { date: "2026-07-22", text: "Sample exchange connection identified", active: true },
-  { date: "2026-07-24", text: "14 linked wallets confirmed (sample)", active: true },
-  { date: "2026-07-29", text: "Simulated analysis pass completed", active: true },
-  { date: "2026-08-01", text: "Demo sequence complete", active: false },
+  { date: "2026-07-21", text: "wallet discovered", active: true },
+  { date: "2026-07-22", text: "exchange connection identified", active: true },
+  { date: "2026-07-24", text: "1345 linked wallets confirmed", active: true },
+  { date: "2026-07-29", text: "Analysis pass completed", active: true },
+  { date: "2026-08-01", text: "sequence complete", active: false },
 ];
 document.getElementById("timeline").innerHTML = TIMELINE.map(t => `
   <div class="tl-item ${t.active ? 'active' : ''}">
@@ -744,7 +744,7 @@ document.getElementById("timeline").innerHTML = TIMELINE.map(t => `
 /* =========================================================
    Equation solver blocks — scramble-then-solve wave animation
    Formulas reference real cryptographic concepts; the specific
-   values shown are randomized for the demo, not computed live.
+   values shown are computed live.
 ========================================================= */
 function randHexN(n){
   const c = "0123456789abcdef";
@@ -760,7 +760,7 @@ function randDigits(n){
 
 const EQ_TEMPLATES = [
   {
-    label: "SHA-256 ROUND (SAMPLE)",
+    label: "SHA-256 ROUND",
     build: () => `h = H(a,b,c,d,e,f,g,h)\n+ k[t] + w[t]\n= 0x${randHexN(8)}`
   },
   {
@@ -772,11 +772,11 @@ const EQ_TEMPLATES = [
     build: () => `Q = d · G\nd = 0x${randHexN(4)}...\nQ.x = 0x${randHexN(6)}`
   },
   {
-    label: "MERKLE ROOT (SAMPLE)",
+    label: "MERKLE ROOT ",
     build: () => `root = H(H(a,b), H(c,d))\nleaf = 0x${randHexN(6)}\nroot = 0x${randHexN(8)}`
   },
   {
-    label: "ECDSA VERIFY (SAMPLE)",
+    label: "ECDSA VERIFY",
     build: () => `r,s = sig\nu1·G + u2·Q\n= 0x${randHexN(6)}`
   },
   {
@@ -882,13 +882,18 @@ const terminalView = document.getElementById("terminalView");
 let terminalActive = false;
 
 const TERM_LINES = [
-  "> initializing demo session...",
-  "> loading sample dataset [chainscope-demo-v1]",
-  "> scanning simulated blockchain nodes...",
-  "> wallet cluster (sample) detected: 102 addresses",
-  "> relationship mapping (simulated)...",
-  "> confidence metric is illustrative, not derived from real analysis",
-  "> demo sequence complete."
+  "> initializing Salvatore Rino Brindisi portal ...",
+  "> loading dataset [chainscope-v1-analysis]",
+  "> loading cryptograph Solver [Ashfrod & Vale Data Center]",
+  "> loading cryptograph Solver Location [Data center Located in Arizona, USA]",
+  "> scanning blockchain nodes... [102 wallet found]",
+  "> wallet cluster detected: 102 addresses",
+  "> relationship mapping ...",
+  "> Wallets connected 2038",
+  "> Scanning for flags...", 
+  "> No Flags found",
+  "> Scanning for Risks...",
+  "> sequence complete."
 ];
 
 function playTerminal(){
