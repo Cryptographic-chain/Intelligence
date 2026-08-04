@@ -460,6 +460,29 @@
     letter-spacing: 0.15em;
     padding: 10px 0 4px;
   }
+  
+/* ---- Case metadata panel ---- */
+.case-meta{ display:flex; flex-direction:column; gap:10px; }
+.case-row{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size: 12px; padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.case-row:last-child{ border-bottom: none; }
+.case-key{ color: var(--text-dim); font-size: 10px; letter-spacing: 0.1em; }
+.case-val{ color: var(--text); text-align: right; }
+.case-val.glow{ color: var(--glow); }
+.case-val.status-active{
+  color: var(--glow);
+  display:flex; align-items:center; gap:6px;
+}
+.case-val.status-active::before{
+  content:"";
+  width:6px; height:6px; border-radius:50%;
+  background: var(--glow); box-shadow: 0 0 6px var(--glow);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+  
 </style>
 </head>
 <body>
@@ -506,6 +529,11 @@
 
     <div class="grid-main" style="margin-top:16px;">
 
+<div class="panel">
+  <div class="panel-title">CASE METADATA <span class="tag">Private</span></div>
+  <div class="case-meta" id="caseMeta"></div>
+</div>
+      
       <!-- Left column -->
       <div style="display:flex; flex-direction:column; gap:16px;">
         <div class="panel value-card">
