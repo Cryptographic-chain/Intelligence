@@ -777,11 +777,11 @@ graphSvg.querySelectorAll(".graph-node").forEach(g => {
    Timeline 
 ========================================================= */
 const TIMELINE = [
-  { date: "2026-07-21", text: "wallet discovered", active: true },
+  { date: "2025-03-21", text: "wallet discovered", active: true },
   { date: "2026-07-22", text: "exchange connection identified", active: true },
   { date: "2026-07-24", text: "1345 linked wallets confirmed", active: true },
   { date: "2026-07-29", text: "Analysis pass completed", active: true },
-  { date: "2026-08-01", text: "sequence complete", active: false },
+  { date: "2026-07-29", text: "sequence complete", active: false },
 ];
 document.getElementById("timeline").innerHTML = TIMELINE.map(t => `
   <div class="tl-item ${t.active ? 'active' : ''}">
